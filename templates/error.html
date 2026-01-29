@@ -1,0 +1,27 @@
+{% extends "admin/admin_index.html" %}
+
+{% block title %}Admin Dashboard - Veranda Café{% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Veranda Café Admin</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1>Admin Dashboard - Error</h1>
+    </header>
+
+    <div class="error-container">
+        <div class="error-card">
+            <h2>Error</h2>
+            <p>{{ error }}</p>
+            <a href="/admin/dashboard" class="back-button">Back to Dashboard</a>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

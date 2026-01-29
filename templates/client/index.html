@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veranda Café</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" href="/static/img/Veranda-Cafe-Transparent.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Modal for Order List -->
+
+        <div id="orderModal" class="modal">
+            <div class="modal-content">
+                <h3 class="modal-title">Order List</h3>
+                <div id="orderItems" class="order-items">
+                    {% if cart_items %}
+                    {% for item in cart_items %}
+                    <div class="order-item">
+                        <img src="{{ item['image_url'] }}" alt="{{ item['name'] }}" class="item-image">
+                        <div class="item-details">
+                            <p class="item-name">{{ item['name'] }}</p>
+                            <p class="item-price">₱{{ item['price'] }}</p>
+                        </div>
+                        <div class="item-quantity">
+                            <button class="minus-btn" data-id="{{ item['id'] }}" data-action="decrement">-</button>
+                            <input type="number" value="{{ item['quantity'] }}" class="quantity-input" min="1" readonly>
+                            <button class="plus-btn" data-id="{{ item['id'] }}" data-action="increment">+</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p>No items in cart.</p>
+                    {% endif %}
+                </div>
+
+                <img src="/static/img/Line 9.png" alt="Line" class="line-separator">
+                <div class="order-total">
+                    <button id="addItemsBtn" class="add-more-btn">Add more items</button>
+                    <span id="cart-total">Total: <strong id="totalAmount">₱{{ total }}</strong></span>
+                </div>
+
+                <button id="checkoutBtn" class="checkout-btn">
+                    <a href="/checkout">Continue to Checkout</a>
+                </button>
+
+            </div>
+        </div>
+
+
+
+        <div class="container">
+            <div class="sidebar">
+                <img src="/static/img/Veranda-Cafe-Transparent.png" alt="">
+                <div class="list">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle active">
+                            <img src="/static/icon/skillet_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg" alt="">
+                            Orders <span class="arrow">&#9654;</span>
+                        </a>
+                        <div class="dropdown-menu show">
+                            {% for category in categories %}
+                            {% if category.name != 'Daily Offers' %}
+                            <a href="/menu/{{ category['name'] }}">{{ category['name'] }}</a>
+                            {% else %}
+                            <!-- Only show 'Daily Offers' if there are active items -->
+                            {% if daily_offers_items %}
+                            <a href="/menu/{{ category['name'] }}">{{ category['name'] }}</a>
+                            {% endif %}
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <a href="/karaoke">
+                        <img src="/static/icon/google_home_devices_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                            alt="">Karaoke
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="content">
+                <header {% if hide_header %}style="display: none;" {% endif %}>
+                    <img src="/static/img/header.png" alt="">
+                </header>
+
+                {% block content %}
+                {% endblock %}
+
+                <footer {% if hide_footer %}style="display: none;" {% endif %}>
+                    <!-- Link to View Order List -->
+                    <a id="viewOrderBtn" href="#">
+                        <span id="cartCounter" class="cart-counter">0</span>
+                        <img id="cartIcon" src="/static/icon/shopping_bag_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+                            alt="Order List">
+                        View Order List
+                    </a>
+                    <div>
+                        <button id="cancelOrderBtn" class="cancel">Cancel Order</button>
+                        <button id="checkoutOrderBtn" class="checkout">Check Out</button>
+                    </div>
+                </footer>
+
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script src="/static/js/index.js"></script>
+<script>
+
+
+</script>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veranda Café</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" href="/static/img/Veranda-Cafe-Transparent.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <div class="sidebar">
+                <img src="/static/img/Veranda-Cafe-Transparent.png" alt="">
+                <a href="/admin/dashboard"><img src="/static/icon/barchart.svg" alt="">Dashboard</a>
+                <a href="/admin/AllOrders"><img src="/static/icon/receipt.svg" alt="">All Orders</a>
+                <a href="/admin/dailyOffers"><img src="/static/icon/sale.svg" alt="">Daily Offers</a>
+                <a href="/admin/menu"><img src="/static/icon/menuBook.svg" alt="">Menu</a>
+                
+            </div>
+
+            <div class="content">
+                
+                {% block content %}
+                {% endblock %}
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

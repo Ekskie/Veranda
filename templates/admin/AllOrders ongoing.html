@@ -1,0 +1,97 @@
+{% extends "admin/admin_index.html" %}
+
+{% block title %}Admin Dashboard - Veranda Café{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/allOrders.css">
+<body>
+    <header>
+        <h1>Our Orders</h1>
+    </header>
+    <nav class="order-tabs">
+        <button class="tab-btn" onclick="window.location.href='/admin/AllOrders'">New Orders</button>
+        <button class="tab-btn active" onclick="window.location.href='/admin/AllOrdersOngoing'">Ongoing Orders</button>
+        <button class="tab-btn" onclick="window.location.href='/admin/AllOrdersPast'">Past Orders</button>
+    </nav>
+
+    <div class="containers">
+        {% for user_id, order in grouped_orders.items() %}
+
+        <div class="order-card" data-order-id="{{ user_id}}">
+                <div class="order-header">
+                    <div class="customer-info">
+                        <h2>{{ order['customer_name'] }}</h2>
+                        <p class="timestamp">{{ order['created_at'] }}</p>
+                    </div>
+                    <div class="order-total">
+                        <p>{{order['dine_in_takeout']}}</p>
+                        <p>Total: ₱ {{ order['total'] }}</p>
+                    </div>
+                </div>
+
+                <div class="order-items">
+                    {% for item in order['items'] %}
+
+                        <div class="order-item">
+                            <div class="item-details">
+                                <span class="item-name">{{ item['name'] }}</span>
+                                <span class="item-quantity">x{{ item['quantity'] }}</span>
+                            </div>
+                            <span class="item-price">₱ {{ item['price']}}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="order-message">
+                    <p class="message-label">Message:</p>
+                    <p class="message-text">{{ order['special_requests'] }}</p>
+                    
+                </div>
+                <div class="order-actions">
+                    <p><strong>Order Status:</strong> <span style="color: #FF7600;"> {{ order['order_status']}} </span></p>
+                    <button class="btn cancel-btn">Cancel Order</button>
+                    <button class="btn accept-btn">Serve Order</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const button = event.target;
+                const orderCard = button.closest('.order-card');
+                const orderId = orderCard.dataset.orderId; // Ensure order ID is set as a data attribute in the card
+                const action = button.classList.contains('cancel-btn') ? 'Cancelled' : 'Completed';
+
+                fetch('/admin/UpdateOrderStatus', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        order_id: orderId,
+                        new_status: action
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        orderCard.remove(); // Optionally remove the card from the DOM
+                    } else {
+                        alert('Failed to update order status. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+            });
+        });
+    });
+    </script>
+</body>
+{% endblock %}

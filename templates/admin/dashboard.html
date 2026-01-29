@@ -1,0 +1,133 @@
+{% extends "admin/admin_index.html" %}
+
+{% block title %}Admin Dashboard - Veranda Café{% endblock %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+
+<body>
+
+    <header class="header animate-fade-in">
+        <h1>Dashboard</h1>
+    </header>
+    <div class="containers">
+
+
+        <div class="stats-grid">
+            <div class="stat-card animate-slide-up" style="animation-delay: 100ms;">
+                <div class="stat-header">
+                    <div>
+                        <h3>{{ total_menus }}</h3>
+                        <p>Total Menus</p>
+                    </div>
+                    <div class="icon-container menu-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                            <path d="M3 6h18" />
+                            <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill menu-progress" style="width: 16%;"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>0%</span>
+                    <span>16%</span>
+                </div>
+            </div>
+
+            <div class="stat-card animate-slide-up" style="animation-delay: 200ms;">
+                <div class="stat-header">
+                    <div>
+                        <h3>{{ total_orders_today }}</h3>
+                        <p>Total Orders Today</p>
+                    </div>
+                    <div class="icon-container order-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+                            <path d="M3 6h18" />
+                            <path d="M16 10a4 4 0 0 1-8 0" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill order-progress" style="width: 68%;"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>0%</span>
+                    <span>68%</span>
+                </div>
+            </div>
+
+            <div class="stat-card animate-slide-up" style="animation-delay: 300ms;">
+                <div class="stat-header">
+                    <div>
+                        <h3>{{ total_clients_today }}</h3>
+                        <p>Total Clients Today</p>
+                    </div>
+                    <div class="icon-container client-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill client-progress" style="width: 80%;"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>0%</span>
+                    <span>80%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container stat-card">
+            <h2>Orders Summary</h2>
+            <div class="chart">
+                <canvas id="ordersChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('ordersChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Dec 30', 'Dec 31', 'Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5'],
+                    datasets: [{
+                        label: 'Orders',
+                        data: [5000, 9000, 2000, 5000, 1000, 12000, 7000],
+                        borderColor: '#ea384c',
+                        tension: 0.4,
+                        pointBackgroundColor: '#ea384c'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return (value / 1000) + 'k';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "client/index.html" %}
+
+{% block title %}Menu - Veranda Café{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/checkout.css">
+
+<!-- Notification Modal -->
+<div id="orderNotificationModal" class="modals hidden">
+    <div class="modal-contents">
+        <h3>Order Sent!</h3>
+        <p>Your order has been successfully sent to the admin.</p>
+        <button id="closeModalBtn">OK</button>
+    </div>
+</div>
+
+<body>
+    <header>
+        <h1 class="title fade-in">Check Out</h1>
+    </header>
+
+    <div class="containers">
+        <div class="grid">
+            <!-- Order Details Section -->
+            <div class="card slide-in">
+                <h2>Order Details</h2>
+                <div class="order-type">
+                    <h3>Order Type</h3>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="orderType" value="Dine In">
+                            <span>Dine In</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="orderType" value="Take Out">
+                            <span>Take Out</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerName">Customer Name (Required)</label>
+                    <input type="text" id="customerName" placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests (Optional)</label>
+                    <textarea id="specialRequests" placeholder="Add special requests here"></textarea>
+                </div>
+            </div>
+
+            <!-- Order Summary Section -->
+            <div class="card slide-in">
+                <h2>Your Order</h2>
+
+                <div class="order-items">
+                    <div class="order-header">
+                        <span>Product</span>
+                        <span>Subtotal</span>
+                    </div>
+
+                    <!-- Loop through the cart items -->
+                    {% for item in cart_items %}
+                    <div class="order-item">
+                        <div class="item-details">
+                            <span>{{ item['name'] }}</span>
+                            <span class="quantity">x{{ item['quantity'] }}</span>
+                        </div>
+                        <span>₱ {{ item['price'] }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="order-total">
+                    <a href="/menu/Unli Rice"><button class="add-items">Add more items</button></a>
+                    <div class="total">
+                        <span>Total:</span>
+                        <span class="total-amount">₱ {{ total }}</span>
+                    </div>
+                </div>
+
+                <button class="checkout-btn" id="submitOrderBtn">Check Out</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('submitOrderBtn').addEventListener('click', function () {
+            // Get order details from the form
+            const orderType = document.querySelector('input[name="orderType"]:checked').value;
+            const customerName = document.getElementById('customerName').value.trim();
+            const specialRequests = document.getElementById('specialRequests').value.trim();
+
+            console.log(orderType)
+            if (!customerName) {
+                alert("Customer name is required.");
+            } else {
+                // Proceed with the form submission or other logic
+                console.log("Customer name:", customerName);
+            
+            // Send data to the server
+            fetch('/submit_order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    order_type: orderType,
+                    customer_name: customerName,
+                    special_requests: specialRequests
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show the modal
+                        const modal = document.getElementById('orderNotificationModal');
+                        modal.classList.remove('hidden');
+                        modal.style.display = 'flex';
+
+                        // Close modal on button click
+                        document.getElementById('closeModalBtn').addEventListener('click', function () {
+                            modal.style.display = 'none';
+                            // Optionally, redirect the user to the menu or another page
+                            window.location.href = '/menu/Unli Rice';
+                        });
+                    } else {
+                        alert('Failed to submit order: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while submitting your order. Please try again.');
+                });
+            }
+        });
+    </script>
+
+</body>
+
+{% endblock %}

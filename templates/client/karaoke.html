@@ -1,0 +1,77 @@
+{% extends "client/index.html" %}
+
+{% block title %}Menu - Veranda Café{% endblock %}
+
+{% block content %}
+<div class="BGvideo">
+<!-- Video Background -->
+<video class="video-background" autoplay muted loop>
+    <source src="static/video/shaibg.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<div class="karaokeContain">
+    <h1>Search For Karaoke Song</h1>
+    <div id="search-container">
+        <!-- <form action=""> -->
+        <input type="text" id="search-input" placeholder="Search for Songs...">
+        <button id="search-button">Search</button>
+    <!-- </form> -->
+    </div>
+    <div id="video-container"></div>
+</div>
+</div>
+<script>
+    const apiKey = 'AIzaSyDfrtp3EXDL8hbM_QygpzHWFKTugON7OPA'; // Replace with your API key
+    const videoContainer = document.getElementById('video-container');
+    const searchButton = document.getElementById('search-button');
+    const searchInput = document.getElementById('search-input');
+
+    // Automatically fetch 6 random karaoke videos on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchVideos('karaoke'); // Default search term
+    });
+
+    // Search functionality
+    searchButton.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (query) {
+            fetchVideos(query); // Fetch based on user input
+        }
+    });
+
+    async function fetchVideos(query) {
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(query)}&key=${apiKey}&maxResults=15`; // Fetch more to randomize later
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            // Clear previous results
+            videoContainer.innerHTML = '';
+
+            if (data.items && data.items.length > 0) {
+                // Shuffle videos and pick 6 random ones
+                const videos = data.items.sort(() => Math.random() - 0.5).slice(0, 6);
+
+                videos.forEach(item => {
+                    const videoId = item.id.videoId;
+                    const videoEmbed = `
+                        <div class="video">
+                            <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
+                        </div>
+                    `;
+                    videoContainer.innerHTML += videoEmbed;
+                });
+            } else {
+                videoContainer.innerHTML = '<p>No videos found</p>';
+            }
+        } catch (error) {
+            console.error('Error fetching videos:', error);
+            videoContainer.innerHTML = '<p>Error fetching videos. Please try again later.</p>';
+        }
+    }
+</script>
+
+
+{% endblock %}

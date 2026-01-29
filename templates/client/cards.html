@@ -1,0 +1,28 @@
+{% extends "client/index.html" %}
+
+{% block content %}
+<div class="menu">
+    {% for item in menu_items %}
+    <div class="cards">
+        {% if item['is_bestSeller'] %}
+        <div class="best-seller-badge">BEST SELLER</div>
+        {% endif %}
+        <img src="{{ item['image_url'] }}" alt="{{ item['name'] }}">
+        <h3>{{ item['name'] }}</h3>
+        {% if item['is_active'] %}
+        
+        <p> <s style="color: #888888; font-size: 0.7rem;">₱{{ item.price }}</s> ₱{{ item.discounted_price }}.00</p>
+        {% else %}
+        <p>₱{{ item.price }}</p>
+        {% endif %}
+        <div class="priceNbutton">
+            <p><span class="emoji">⏱</span> {{ item['preparation_time'] }} mins</p>
+            <button class="add-to-cart-btn" data-name="{{ item['name'] }}" data-price="{{ item['price'] }}"
+                data-image="{{ item['image_url'] }}">
+                +
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

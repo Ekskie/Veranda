@@ -1,0 +1,125 @@
+{% extends "admin/admin_index.html" %}
+
+{% block title %}Menu Management - Admin{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/css/menu.css">
+<div class="menu-management">
+    <header class="header">
+        <h1>Menu Management</h1>
+    </header>
+
+
+    <div class="categories-container">
+        {% for category in categories %}
+        <div class="category-card">
+            <!-- Category Header -->
+            <div class="category-header dropdown-toggle" data-id="{{ category.id }}">
+                <div>
+                    <h2>{{ category.name }}</h2>
+                </div>
+                <div class="category-actions">
+                    <button class="btn edit-category" data-id="{{ category.id }}">
+                        <img src="/static/icon/edit_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="">Edit</button>
+                    <button class="btn delete-category" data-id="{{ category.id }}">
+                        <img src="/static/icon/delete_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg" alt="">Delete</button>
+                </div>
+            </div>
+    
+            <!-- Dropdown Content (Initially Hidden) -->
+            <div class="dropdown-content" id="dropdown-{{ category.id }}" data-open="false">
+                <p class="category-description">{{ category.description }}</p>
+                <header class="menu-items-header">
+                    <h3>Menu Items</h3>
+                    <button class="btn add-menu-item" data-category-id="{{ category.id }}">+ Add Item</button>
+                </header>
+                <div class="menu-items">
+                    {% for item in category.menu_items %}
+                    <div class="menu-item-card">
+                        <img src="{{ item.image_url }}" alt="{{ item.name }}">
+                        <div class="menu-item-info">
+                            <h4>{{ item.name }}</h4>
+                            <p>₱{{ item.price }}</p>
+                            <p><span class="emoji">⏱</span> {{ item.preparation_time }} mins</p>
+                        </div>
+                        <div class="menu-item-actions">
+                            <button class="btn edit-item" data-id="{{ item.id }}">Edit</button>
+                            <button class="btn delete-item" data-id="{{ item.id }}">Delete</button>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+
+<!-- Modals -->
+<div id="categoryModal" class="modals">
+    <button class="close-modal">&times;</button>
+    <div class="modal-contents">
+        <h2 id="modalTitle">Add Category</h2>
+        <!-- Form content -->
+        <form id="categoryForm">
+            <input type="hidden" id="categoryId" name="category_id">
+            <label for="categoryName">Category Name:</label>
+            <input type="text" id="categoryName" name="name" required>
+            <label for="categoryDescription">Description:</label>
+            <textarea id="categoryDescription" name="description" required></textarea>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<div id="menuItemModal" class="modals">
+    <button class="close-modal">&times;</button>
+    <div class="modal-overlay"></div>
+    <div class="modal-contents">
+        <h2 id="menuItemModalTitle" class="modal-title">Add Menu Item</h2>
+        <form id="menuItemForm" enctype="multipart/form-data">
+            <div class="form-group image">
+                <label for="menuItemImageInput" class="image-label">Image File:</label>
+                <div class="image-preview-container">
+                    <img id="menuItemImagePreview" src="" alt="Preview Image" class="image-preview">
+                    <input type="file" id="menuItemImageInput" name="image_url" class="upload-btn" accept=".png, .jpg, .jpeg, .gif, .webp">
+                    <div class="upload-placeholder">
+                        <span class="plus-sign">+</span>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="menuItemId" name="item_id">
+            <input type="hidden" id="menuItemCategoryId" name="category_id">
+            
+            <div class="form-group">
+                <label for="menuItemName">Item Name:</label>
+                <input type="text" id="menuItemName" name="name" class="input-text" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="menuItemPrice">Price:</label>
+                <input type="number" id="menuItemPrice" name="price" class="input-number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="menuItemDiscountedPrice">Discounted Price:</label>
+                <input type="number" id="menuItemDiscountedPrice" name="discountedPrice" class="input-number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="menuItemPreparationTime">Preparation Time:</label>
+                <input type="number" id="menuItemPreparationTime" name="preparation_time" class="input-number" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+
+    <button class="btn addCategory" id="addCategoryBtn" >+ Add Category</button>
+
+<script src="/static/js/menu.js"></script>
+
+{% endblock %}
