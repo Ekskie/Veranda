@@ -1,0 +1,181 @@
+:root {
+    --primary: rgb(187, 247, 208);
+    --primary-foreground: rgb(22, 101, 52);
+    --secondary: rgb(242, 237, 255);
+    --secondary-foreground: rgb(77, 39, 206);
+    --accent: rgb(254, 215, 170);
+    --accent-foreground: rgb(154, 52, 18);
+    --background: rgb(249, 250, 251);
+    --foreground: rgb(17, 24, 39);
+    --border: rgb(229, 231, 235);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: 1.5;
+}
+
+.containers {
+    padding: 2rem;
+}
+
+.content{
+    justify-content: normal;
+}
+
+.header {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: center;
+}
+
+.header h1 {
+    color: #212121;
+    font-weight: bold;
+    margin: auto;
+    padding: 10px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.stat-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.stat-header h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.stat-header p {
+    font-size: 0.875rem;
+    color: rgb(107, 114, 128);
+}
+
+.icon-container {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+}
+
+.menu-icon {
+    background-color: rgba(187, 247, 208, 0.2);
+    color: var(--primary-foreground);
+}
+
+.order-icon {
+    background-color: rgba(242, 237, 255, 0.2);
+    color: var(--secondary-foreground);
+}
+
+.client-icon {
+    background-color: rgba(254, 215, 170, 0.2);
+    color: var(--accent-foreground);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 0.5rem;
+    background-color: rgb(243, 244, 246);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 1s ease-out;
+}
+
+.menu-progress {
+    background-color: var(--primary);
+}
+
+.order-progress {
+    background-color: var(--secondary);
+}
+
+.client-progress {
+    background-color: var(--accent);
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: rgb(107, 114, 128);
+}
+
+.chart-container {
+    margin-top: 1.5rem;
+    height: 400px;
+}
+
+.chart-container h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.chart {
+    height: calc(100% - 3rem);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}

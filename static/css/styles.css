@@ -1,0 +1,658 @@
+@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Inter:ital,opsz,wght@0,14..32,400;1,14..32,100&display=swap');
+
+*{
+    top: 0;
+    padding: 0;
+    margin: 0;
+}
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,"Inter", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+    top: 0;
+    overflow-y: hidden;
+}
+
+.container {
+    display: flex;
+    height: 100dvh;
+    margin: 0 auto;
+}
+
+.sidebar {
+    background-color: #031716;
+    color: #fff;
+    width: 300px;
+    max-width: 400px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.sidebar img {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 10px;
+    color: #fff;
+    margin: 10px 0;
+    font-size: 1.4rem;
+    font-family: "Inter", serif;
+    font-weight: 700;
+    font-style: normal;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar a img {
+    margin: 0 10px auto;
+    width: 35px;
+    height: 35px;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.dropdown-menu {
+    display: none;
+    flex-direction: column;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+}
+
+.dropdown-menu.show {
+    display: flex;
+    max-height: 400px;
+    opacity: 1;
+
+}
+
+.dropdown-menu a {
+    padding: 20px 20px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.2rem;
+    font-family: "Inter", serif;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-toggle .arrow {
+    font-size: 1.2rem;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-toggle.active .arrow {
+    transform: rotate(90deg);
+}
+
+/* 
+====================================
+                MODAL
+====================================
+*/
+
+/* Modal styles */
+#orderModal {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.order-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-details {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.item-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-price {
+    font-size: 14px;
+    color: #555;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.minus-btn, .plus-btn {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.minus-btn:hover, .plus-btn:hover {
+    background-color: #f7f7f7;
+}
+
+.quantity-input {
+    width: 50px;
+    height: 30px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
+.line-separator {
+    width: 100%;
+    margin: 20px 0;
+    display: block;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.add-more-btn {
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.add-more-btn:hover {
+    background-color: #ff6347;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #45a049;
+}
+
+#checkoutBtn a {
+    color: white;
+    text-decoration: none;
+}
+
+
+/* ===============================
+CONTENT
+==================================
+ */
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header img {
+    width: 100%;
+    height: 100%;
+}
+.menu {
+    display: grid;
+    padding: 20px;
+    grid-template-columns: repeat(5, 1fr); /* Default to 5 columns */
+    justify-items: center;
+    gap: 20px;
+    overflow-y: auto;
+    height: 100%;
+    align-items: start;
+}
+
+
+
+.cards {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* Added for badge positioning */
+}
+
+.cards img {
+    height: 150px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.cards h3 {
+    margin: 10px 0;
+    font-family: "Bubblegum Sans", serif;
+    font-size: 2rem;
+    font-weight: 200;
+}
+
+.cards button {
+    background-color: #FF4F43;
+    width: 20%;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cards button:hover {
+    background-color: #db392d;
+    /* Darker blue on hover */
+    transform: scale(1.05);
+    /* Slight zoom effect */
+}
+
+.cards p{
+    color: red;
+    font-family: "Bubblegum Sans", serif;
+}
+
+.priceNbutton {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.priceNbutton p {
+    color: #505050;
+    margin: 0;
+    font-size: 0.5rem;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+    display: flex;
+    align-items: center;
+}
+
+.priceNbutton p .emoji {
+    font-size: 1.6rem; /* Adjust the size of the emoji */
+    vertical-align: middle; /* Align it nicely with the text */
+    font-weight: 400;
+}
+
+.best-seller-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #FF4F43;
+    color: white;
+    font-family: "Bubblegum Sans", serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transform: rotate(-10deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    position: sticky;
+    max-height: 10px;
+    align-items: center;
+    /* Ensures the footer stays at the bottom */
+    bottom: 0;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #031716;
+    font-weight: bold;
+}
+
+footer a img {
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    color: #021b1a;
+}
+
+footer .checkout {
+    background-color: #031716;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+footer .checkout:hover {
+    background-color: #021b1a;
+    /* Darker green on hover */
+    transform: scale(1.05);
+    /* Slight zoom effect */
+}
+
+footer button.cancel {
+    color: #dc3545;
+    border: #dc3545 solid 2px;
+    padding: 10px 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+footer button.cancel:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+    color: #fff;
+}
+.cart-counter {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 20px;
+    text-align: center;
+    position: relative;
+    top: -10px;
+    left: 10px;
+}
+
+/* 
+=========================
+KARAOKE DESIGN LAYOUT
+=========================
+*/
+
+.karaokeContain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    height: 100%;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+#search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+#search-input {
+    padding: 12px 16px;
+    width: 300px;
+    border: 2px solid #031716;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#search-input:focus {
+    border-color: #4CAF50;
+}
+
+#search-button {
+    padding: 12px 20px;
+    background-color: #021b1a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#search-button:hover {
+    background-color: #031716;
+    transform: translateY(-2px);
+}
+
+#video-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 2;
+}
+
+.video {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+iframe {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    border: none;
+}
+
+/* Fullscreen Video Styling */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures the video covers the screen */
+    z-index: -1;
+    /* Places the video behind other content */
+}
+
+.BGvideo {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.BGvideo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 27, 26, 0.5);
+    /* Adjust the RGBA values for the desired color and opacity */
+    z-index: 1;
+    /* Ensure this layer is above the video but below the content */
+}
+
+.karaokeContain {
+    position: relative;
+    z-index: 2;
+    /* Ensure the content is above the overlay */
+}
+
+
+/* Apply the custom scrollbar to the entire page */
+.menu::-webkit-scrollbar{
+    width: 12px; /* Width of the scrollbar */
+}
+
+.container::-webkit-scrollbar {
+    width: 8px;
+}
+.menu::-webkit-scrollbar-track, .container::-webkit-scrollbar-track  {
+    background: #e5e5e5; /* Track color */
+}
+
+.menu::-webkit-scrollbar-thumb, .container::-webkit-scrollbar-thumb  {
+    background-color: #031716; /* Scrollbar thumb color */
+    border-radius: 6px; /* Round the scrollbar thumb */
+    border: 3px solid #e5e5e5; /* Optional: Add a border to create space between the thumb and track */
+}
+
+/* Optional: Hover effect for the scrollbar thumb */
+.menu::-webkit-scrollbar-thumb:hover, .container::-webkit-scrollbar-thumb:hover  {
+    background-color: #04423d; /* Darker shade of the thumb for hover effect */
+}
+
+
+@media (max-width: 1440px) {
+    .menu {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* For medium screens (e.g., tablets) */
+@media (max-width: 1024px) {
+    .menu {
+        grid-template-columns: repeat(3, 1fr); /* Reduce to 3 columns */
+    }
+    .container{
+        flex-direction: column;
+        overflow: auto;
+    }
+    .sidebar{
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+    }
+    .sidebar img{
+        width: 150px;
+        height: 150px;
+    }
+    .sidebar a{
+        font-size: 1rem;
+    }
+
+}
+/* For small screens (e.g., mobile phones) */
+@media (max-width: 768px) {
+    .menu {
+        grid-template-columns: repeat(2, 1fr); /* Reduce to 2 columns */
+    }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+    .menu {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+}
